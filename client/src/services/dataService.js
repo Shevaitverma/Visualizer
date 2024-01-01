@@ -1,6 +1,6 @@
 export async function dataService() {
     try {
-      const response = await fetch('http://127.0.0.1:8000/dashboard/dataset');
+      const response = await fetch('http://localhost:4000/api/data');
       const data = await response.json();
       return data;
     } catch (error) {
