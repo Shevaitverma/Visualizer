@@ -1,13 +1,21 @@
-import Test from "./components/test";
+import React, { useState, useEffect } from 'react';
+import { dataService } from './services/dataService';
 
 function App() {
+
+  const [data, setData] = useState([]);
+
+  useEffect(()=>{
+    //fetch data logic 
+    setData(dataService())
+  },[])
+  console.log(data);
+  
   return (
-    <>
     <div>
-      <h2>This is root compartment</h2>
+      <h1>Dashboard</h1>
+    
     </div>
-    <Test />
-    </>
   );
 }
 
