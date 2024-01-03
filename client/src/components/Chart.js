@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 function ChartView({ data }) {
     const [chartRef, setChartRef] = useState(null);
-
+    const chartInstanceRef = useRef(null); // Add ref to hold chart instance
     useEffect(() => {
         if (chartRef && data) {
             const chartInstance = new Chart(chartRef, {
@@ -18,13 +18,20 @@ function ChartView({ data }) {
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     }]
-                },
-                options: {
-                    // Chart customization options
                 }
             });
+            chartInstanceRef.current = chartInstance; // Store instance for later disposal
         }
     }, [chartRef, data]);
+
+    useEffect(() => {
+        // Cleanup previous chart instance when data changes or component unmounts
+        return () => {
+            if (chartInstanceRef.current) {
+                chartInstanceRef.current.destroy();
+            }
+        };
+    }, [data]);
 
     return <canvas ref={setChartRef} />;
 }
